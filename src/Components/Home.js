@@ -1,12 +1,49 @@
-import React from 'react';
+import React, {Component} from 'react';
+import axios from 'axios';
 
-const Home = () => {
-    return(
-        <div className="container">
-            <h4 className="center">Home</h4>
-            <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla neque metus, quis commodo tellus laoreet quis. Duis at dictum nunc. Vivamus ultricies lacus a augue molestie, a vestibulum nisi posuere. Ut efficitur magna blandit fermentum sagittis. Phasellus condimentum ipsum consequat eros pretium congue. Vestibulum vitae consectetur dui, vitae ultricies nibh. Sed sit amet imperdiet sapien. Vestibulum semper lectus eget eros rutrum, at bibendum massa condimentum. In magna nibh, dictum ut euismod consequat, laoreet sit amet arcu. Fusce posuere lectus et dolor ullamcorper fermentum. Phasellus finibus neque eu mi ultricies, cursus ornare dui blandit.</p>
-        </div>
-    )
+class Home extends Component {
+    state = {
+        posts: [ ]
+    }
+
+    //once the component has been called ---> trigger componentDidMount()
+    //then we get dummy data for API link using axios
+    //set the component's state to replace with response data
+    componentDidMount(){
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+        .then(res => {
+            console.log(res);
+            this.setState({
+                posts: res.data.slice(0,10)
+            })
+        }) 
+    }
+    
+    //map each of the array's object to have jsx format
+    render(){
+        const {posts} = this.state;
+        const postList = posts.length ? (
+            posts.map( p => {
+                return(
+                    <div className="post card" key={p.id}>
+                        <div className="card-content">
+                            <span className="card-title">{p.title}</span>
+                            <p>{p.body}</p>
+                        </div>
+                    </div>
+                )
+            })
+        ) : (
+            <div className="center">No Posts yet!</div>
+        )
+        return(
+            <div className="container">
+                <h4 className="center">Home</h4>
+                {postList}
+            </div>
+        )
+    }
 }
+
 
 export default Home;

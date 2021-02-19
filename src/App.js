@@ -9,7 +9,7 @@ import Contact from './Components/Contact';
 class App extends Component {
   render() {
     return (
-      //to use Routing. Application inside the BrowserRoute can use Route
+      //to use Routing. Application inside the <BrowserRoute> can use Route.
       <BrowserRouter>
         <div className="App">
           <Navbar />
